@@ -13,20 +13,39 @@
 template <typename T>
 std::set<T> setIntersection(std::set<T>& s1, std::set<T>& s2)
 {
+    std::set<T> interSet; 
+    typename std::set<T>::iterator it1; 
+    //do I need to consider about the set s1 and set s2 are empty case? 
+    //s1: apple, banana, orange, grape, strawberry   s2: apple, orange, grape, watermelon
+    for (it1=s1.begin(); it1!=s1.end(); ++it1) //iterate each key in the set s1 
+    {
 
-
-
-
-
+        if (s2.find(*it1) != s2.end())
+        {
+            interSet.insert(*it1);
+        }
+        
+    }
+    return interSet; 
 }
+
+
 template <typename T>
 std::set<T> setUnion(std::set<T>& s1, std::set<T>& s2)
 {
-
-
-
-
-
+    std::set<T> unionSet; 
+    typename std::set<T>::iterator it1; 
+    typename std::set<T>::iterator it2; 
+    //s1: apple, orange   s2: banana, grape, apple 
+    for (it1=s1.begin(); it1!=s1.end(); ++it1)
+    {
+        unionSet.insert(*it1);
+    }
+    for (it2=s2.begin(); it2!=s2.end(); ++it2) 
+    {
+        unionSet.insert(*it2);
+    }
+    return unionSet; 
 }
 
 /***********************************************/
