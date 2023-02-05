@@ -21,7 +21,7 @@ std::set<std::string> parseStringToWords(string rawWords)
     //ispunct (char) return boolean 
     
     string word;
-    stringstream ss(rawWords);
+    stringstream ss(convToLower(rawWords));
     set<string> keyWords;
     while (ss>>word) //parse each word from the rawWords 
     {

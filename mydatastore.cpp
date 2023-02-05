@@ -17,7 +17,17 @@ using namespace std;
 
 MyDataStore::~MyDataStore()
 {
-    
+    map<string, User*>::iterator it1;
+    vector<Product*>::iterator it2; 
+    for (it1=users_.begin(); it1!=users_.end(); ++it1)
+    {
+        delete it1->second; 
+    }
+    for (it2=allproduct_.begin(); it2!=allproduct_.end(); ++it2)
+    {
+        delete *it2; 
+    }
+
 }
 
 /**
@@ -108,19 +118,37 @@ void MyDataStore::dump(std::ostream& ofile)
     }
   
 }
-// std::vector<Product*> allproduct_; 
-//virtual void dump(std::ostream& os) const;
-//std::map<std::string, User*> users_; 
+
 
 void MyDataStore::addToCart(string user, Product* p)
 {
-    vector<Product*> list;
-    list.push_back(p);
-    cart_.insert(make_pair(user, list)); 
+    //check if the name in the map
+    //check if the user in the users map 
+    if (users_.find(user)==users_.end()) 
+    {
+        cout<<"Invalid request"<<endl; 
+        return; 
+    }
+    if (cart_.find(user)!=cart_.end() && p->getQty()>0)
+    {
+        cart_[user].push_back(p);
+    }
+    else if (cart_.find(user)==cart_.end() && p->getQty()>0)
+    {
+        vector<Product*> list;
+        list.push_back(p);
+        cart_.insert(make_pair(user, list)); 
+    }
 }
+
 
 void MyDataStore::viewCart(std::string user)
 {
+    if (users_.find(user)==users_.end()) 
+    {
+        cout<<"Invalid username"<<endl; 
+        return; 
+    }
     int number=0; //show the order 
     vector<Product*> p=cart_[user];
     vector<Product*>::iterator it; 
@@ -136,18 +164,39 @@ void MyDataStore::viewCart(std::string user)
 
 void MyDataStore::buyCart(std::string user)
 {
-    //find out the user's balance
-    double balance=users_[user]->getBalance();
+    //std::map<std::string, User*> users_; 
+    //if the user is not in the user database, do nothing 
+    if (users_.find(user)==users_.end()) 
+    {
+        cout<<"Invalid username"<<endl; 
+        return; 
+    }
     vector<Product*> p=cart_[user];
     vector<Product*>::iterator it;
+    vector<Product*> newcart; 
     for (it=p.begin(); it!=p.end(); ++it)
     {
-        if (balance>= ((*it)->getPrice()) && (*it)->getQty()>0) 
+        if (users_[user]->getBalance()>= ((*it)->getPrice()) && (*it)->getQty()>0) 
         {
-            balance-=(*it)->getPrice();
+            users_[user]->deductAmount((*it)->getPrice());
             (*it)->subtractQty(1);
-            //p.erase(*it); 
+            cout<<"print the balance: "<<users_[user]->getBalance()<<endl;
         }
+        else
+        {
+            newcart.push_back(*it); 
+            
+        }
+    }
+    if (newcart.size()==0)
+    {
+        cout<<"buy all the products in cart, clear the cart"<<endl; 
+        cart_.erase(user); 
+    }
+    else
+    {
+        cout<<"not enough money or stock"<<endl;
+        p=newcart; 
     }
 
 }

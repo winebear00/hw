@@ -134,10 +134,10 @@ int main(int argc, char* argv[])
             {
                 string name;
                 int index; 
-                if (ss>>name>>index && index<ds.getCartSize(name))
+                if (ss>>name>>index && index <= (int)hits.size())
                 {
                     name=convToLower(name); 
-                    ds.buyCart(name); 
+                    ds.addToCart(name, hits[index-1]); 
                 }
                 else
                 {

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <sstream>
 #include <set>
 #include "book.h"
 #include "util.h"
@@ -35,10 +36,13 @@ std::set<std::string> Book::keywords() const
 
 std::string Book::displayString() const
 {
+    stringstream ss;
+    ss<<fixed<<setprecision(2)<<price_;
+    string p=ss.str(); 
     std::string message=""; 
-    message=name_+"\n";
-    message="Author: "+author_+" "+"ISBN: "+isbn_+"\n";
-    message=to_string(price_)+" "+to_string(qty_)+" left."+"\n"; 
+    message += name_+"\n";
+    message += "Author: "+author_+" "+"ISBN: "+isbn_+"\n";
+    message += p +" "+to_string(qty_)+" left."+"\n"; 
     return message; 
 }
 

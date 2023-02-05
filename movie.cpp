@@ -5,6 +5,7 @@
 #include <set>
 #include "util.h"
 #include "product.h"
+#include <sstream>
 
 using namespace std;  
     
@@ -33,9 +34,12 @@ std::set<std::string> Movie::keywords() const
 std::string Movie::displayString() const
 {
     string message=""; 
-    message=name_+"\n";
-    message="Genre: "+genre_+" "+"Rating: "+rating_+"\n";
-    message=to_string(price_)+" "+to_string(qty_)+" left."+"\n"; 
+    stringstream ss; 
+    ss << fixed << setprecision(2) << price_;
+    string p = ss.str();
+    message += name_+"\n";
+    message += "Genre: "+genre_+" "+"Rating: "+rating_+"\n";
+    message += p +" "+to_string(qty_)+" left."+"\n"; 
     return message; 
 }
 
