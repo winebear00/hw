@@ -26,7 +26,7 @@ Book::~Book()
 std::set<std::string> Book::keywords() const
 {
     std::set<std::string> newset; 
-    newset.insert(isbn_);  
+    newset.insert(convToLower(isbn_));  
     std::set<std::string> authset=parseStringToWords(author_);
     std::set<std::string> nameset=parseStringToWords(name_);
     std::set<std::string> combine=setUnion(authset, nameset);

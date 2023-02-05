@@ -25,7 +25,7 @@ Movie::~Movie()
 std::set<std::string> Movie::keywords() const
 {
     set<string> newset;  
-    newset.insert(genre_); //insert keyword genre 
+    newset.insert(convToLower(genre_)); //insert keyword genre 
     set<string> nameset=parseStringToWords(name_); //get the movie name keywords set  
     newset=setUnion(newset, nameset); //combine two sets 
     return newset; 
