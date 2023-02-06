@@ -108,15 +108,18 @@ void MyDataStore::dump(std::ostream& ofile)
 {
     vector<Product*>::iterator it;
     map<string, User*>::iterator it2; 
+		ofile << "<products>" << endl;
     for (it=allproduct_.begin(); it!=allproduct_.end(); ++it)
     {
         (*it)->dump(ofile); 
     }
+		ofile << "</products>" << endl;
+		ofile << "<users>" << endl;
     for (it2=users_.begin(); it2!=users_.end(); ++it2)
     {
         (it2->second)->dump(ofile);
     }
-  
+  ofile << "</users>" << endl;
 }
 
 
@@ -196,7 +199,8 @@ void MyDataStore::buyCart(std::string user)
     else
     {
         cout<<"not enough money or stock"<<endl;
-        p=newcart; 
+        cart_[user]=newcart;
+				//p=newcart; 
     }
 
 }
